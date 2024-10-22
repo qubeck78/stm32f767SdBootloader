@@ -9,6 +9,7 @@
 
 #include "bootloader.h"
 #include "fatfs.h"
+#include "lcd.h"
 
 extern FATFS   SDFatFS;    /* File system object for SD logical drive */
 extern FIL     SDFile;       /* File object for SD */
@@ -66,6 +67,12 @@ static uint32_t checkAndFlashImageFile( void )
    UINT                    bytesRead;
    uint32_t                i;
 
+   const char spinner[] = "-\|/";
+
+   lcdCls();
+   lcdRefresh();
+
+
    res = f_open( &SDFile, "0:firmware.bin", FA_READ );
 
    if( res != FR_OK )
@@ -79,6 +86,11 @@ static uint32_t checkAndFlashImageFile( void )
 
    //todo: check firmware file lrc
 
+   lcdSetBacklight( LCD_BACKLIGHT_GREEN );
+
+   lcdCls();
+   lcdPrint( "Flash erase:" );
+   lcdRefresh();
 
    //clear flash
    printf( "Flash erase:" );
@@ -96,16 +108,28 @@ static uint32_t checkAndFlashImageFile( void )
 
    if( HAL_FLASHEx_Erase( &flashEraseStruct, &errorSector ) != HAL_OK )
    {
+      lcdPrintF( "ERROR@%d\n", (int)errorSector );
+      lcdRefresh();
+
       printf( "ERROR, sector:%d\r\n", (int)errorSector );
 
       f_close( &SDFile );
 
       HAL_FLASH_Lock();
 
-      return 1;
+      //fatal error
+
+      lcdSetBacklight( LCD_BACKLIGHT_RED );
+
+      do{}while( 1 );
    }
 
+
    printf( "done\r\n" );
+
+   lcdCls();
+   lcdPrint( "Flash write:" );
+   lcdRefresh();
 
    printf( "Flash write:" );
 
@@ -131,6 +155,8 @@ static uint32_t checkAndFlashImageFile( void )
 
    }while( !f_eof( &SDFile ) );
 
+   lcdPrint( "done\n" );
+   lcdRefresh();
 
    printf( "done\r\n" );
 

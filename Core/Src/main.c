@@ -24,6 +24,7 @@
 /* USER CODE BEGIN Includes */
 
 #include "bootloader.h"
+#include "lcd.h"
 
 /* USER CODE END Includes */
 
@@ -122,6 +123,9 @@ int main(void)
   MX_FATFS_Init();
   /* USER CODE BEGIN 2 */
   __enable_irq();
+
+
+  lcdInit();
 
   bootloaderMain();
 

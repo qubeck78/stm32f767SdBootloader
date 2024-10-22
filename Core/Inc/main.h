@@ -142,6 +142,9 @@ void Error_Handler(void);
 
 /* USER CODE BEGIN Private defines */
 
+#define RV_OK     0
+#define RV_ERROR  1
+
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus

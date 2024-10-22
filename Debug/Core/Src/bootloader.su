@@ -1,3 +1,3 @@
-../Core/Src/bootloader.c:18:13:sdTest	344	static
-../Core/Src/bootloader.c:56:17:checkAndFlashImageFile	320	static
-../Core/Src/bootloader.c:148:6:bootloaderMain	24	static,ignoring_inline_asm
+../Core/Src/bootloader.c:19:13:sdTest	344	static
+../Core/Src/bootloader.c:57:17:checkAndFlashImageFile	320	static
+../Core/Src/bootloader.c:174:6:bootloaderMain	24	static,ignoring_inline_asm
